@@ -126,3 +126,12 @@ extension JavaScriptValue: AnyArgument {
     return DynamicJavaScriptType.shared
   }
 }
+
+// The DSL (`Function`, `Field`, `Promise.resolve`) passes arguments as `Any` and in tuples, which a
+// non-copyable JavaScriptValue cannot travel through, so a JavaScript value in the DSL can be declared
+// as `JavaScriptValue.Ref`.
+extension JavaScriptRef: AnyArgument where T == JavaScriptValue {
+  public static func getDynamicType() -> any AnyDynamicType {
+    return DynamicJavaScriptType.shared
+  }
+}
